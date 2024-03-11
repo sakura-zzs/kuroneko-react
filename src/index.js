@@ -1,6 +1,9 @@
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import React, { Suspense } from 'react'
+//通过react-redux的Provider给组件提供store
+import { Provider } from 'react-redux'
+import store from './store'
 //根组件
 import App from './App'
 import 'normalize.css'
@@ -12,9 +15,11 @@ const root = createRoot(document.querySelector('#root'))
 root.render(
   <React.StrictMode>
     <Suspense fallback="loading">
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     </Suspense>
   </React.StrictMode>
 ) 
