@@ -4,14 +4,17 @@ import { PureComponent } from "react"
 import { changeTestAction,fetchMomentList } from "@/store/modules/home"
 //提供react-redux的connect将state和action映射到组件的props中
 import { connect } from "react-redux"
+import { fetchMomentDataAction } from "@/store/modules/article"
+
+import { StyledTestWrapper,SkyBlueBtn } from "./style"
 
 class Home extends PureComponent{
-  // constructor() {
-  //   super()
-  //   this.state = {
-  //     test:homeStore.getState().test
-  //   }
-  // }
+  constructor() {
+    super()
+    this.state = {
+      fontSize:'20'
+    }
+  }
   // //在组件挂载时进行状态订阅
   // componentDidMount() {
   //   //状态变化时更新数据
@@ -26,11 +29,17 @@ class Home extends PureComponent{
     this.props.changeMomentList()
   }
   render() {
-    const {test,changeTest,momentList}=this.props
+    const { test, changeTest, momentList, changeMomentData } = this.props
+    const {fontSize}=this.state
     return (
       <>
+        {/* 传递props，动态样式 */}
+        <StyledTestWrapper fontSize={fontSize}>
         <h1>{test}</h1>
-        <button onClick={() => changeTest('hello')}>改变标题</button>
+        <button className="tit-btn" onClick={() => changeTest('hello')}>改变标题</button>
+        <button className="id-btn" onClick={() => changeMomentData(2)}>根据id获取动态</button>
+        </StyledTestWrapper>
+        <SkyBlueBtn>天蓝色按钮</SkyBlueBtn>
         <ul>
         {
           momentList&&momentList.map(e => 
@@ -57,6 +66,9 @@ const mapDispatchToProps = (dispatch) => ({
   changeMomentList() {
     //派发函数进行网络请求
     dispatch(fetchMomentList())
+  },
+  changeMomentData(id) {
+    dispatch(fetchMomentDataAction(id))
   }
 })
 
